@@ -1,0 +1,80 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  background: linear-gradient(135deg, #eef2f3, #d9e4f5);
+  margin: 0;
+  padding: 0;
+}
+
+.admin-container {
+  max-width: 750px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.admin-container h1 {
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.admin-table th {
+  background: #f5f8ff;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  width: 30%;
+}
+
+.admin-table td input,
+.admin-table td textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+  font-family: "Montserrat", sans-serif;
+}
+
+.admin-table td input:focus,
+.admin-table td textarea:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.15);
+}
+
+button {
+  padding: 12px 18px;
+  background: linear-gradient(90deg, #0077ff, #00c6ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+  margin: 0 auto 15px auto;
+  font-family: "Montserrat", sans-serif;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+}

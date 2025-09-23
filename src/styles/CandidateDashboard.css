@@ -1,0 +1,160 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  background: linear-gradient(135deg, #eef2f3, #d9e4f5);
+  margin: 0;
+  padding: 0;
+}
+
+.candidate-container {
+  max-width: 750px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.candidate-container h1 {
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.candidate-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.candidate-table th,
+.candidate-table td {
+  padding: 14px 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.candidate-table th {
+  background: #f5f8ff;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  width: 30%;
+}
+
+.candidate-table td input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+  font-family: "Montserrat", sans-serif;
+}
+
+.candidate-table td input:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.15);
+}
+
+button {
+  padding: 12px 18px;
+  background: linear-gradient(90deg, #0077ff, #00c6ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+  margin: 0 auto 15px auto;
+  font-family: "Montserrat", sans-serif;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+}
+
+.recommendations {
+  margin-top: 35px;
+}
+
+.recommendations h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #1d3557;
+}
+
+.job-card {
+  background: #f8fbff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-bottom: 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.job-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.job-card strong {
+  font-size: 17px;
+  color: #0077ff;
+}
+
+.job-meta {
+  color: #444;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.match-score {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.animated-text {
+  color: #1d72b8;
+  font-style: italic;
+  margin-top: 8px;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.job-card {
+  border: 1px solid #ccc;
+  border-left: 5px solid transparent;
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.job-card.women-preference {
+  border-left: 5px solid pink; /* ✅ Thick pink border on left side */
+}
+
+.women-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: pink;
+  color: white;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}

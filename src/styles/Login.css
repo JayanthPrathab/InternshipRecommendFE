@@ -1,0 +1,91 @@
+.login-container {
+  text-align: center;
+  margin-top: 100px;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body{
+  background: url("../assets/modi.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+}
+
+.role-selection {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-input {
+  margin: 10px;
+  padding: 10px;
+  width: 80%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.role-button {
+  margin: 10px;
+  width: 120px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: #0077ff;
+  color: white;
+  transition: 0.3s;
+}
+
+.role-button:hover {
+  background: #005fcc;
+}
+
+.login-button, .register-button {
+  margin: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+}
+
+.login-button {
+  background: #28a745;
+  color: white;
+  width: 120px;
+}
+
+.login-button:hover {
+  background: #218838;
+}
+
+.register-button {
+  background: #ff9800;
+  color: white;
+  width: 120px;
+}
+
+.register-button:hover {
+  background: #e68900;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}

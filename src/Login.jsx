@@ -15,11 +15,14 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role }),
-      });
+      const response = await fetch(
+        "https://internshiprecommendbe-2.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, role }),
+        }
+      );
 
       const data = await response.json();
 
@@ -51,12 +54,11 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/register", {
+      const response = await fetch("https://internshiprecommendbe-2.onrender.com/api/register", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),
-      });
-
+       });
       const data = await response.json();
 
       if (response.ok) {

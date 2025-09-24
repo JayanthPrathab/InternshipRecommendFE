@@ -21,7 +21,7 @@ const CandidateDashboard = () => {
       if (!userId) return;
       try {
         const res = await fetch(
-          `http://localhost:5000/api/candidates/${userId}`
+          `https://internshiprecommendbe-2.onrender.com/api/candidates/${userId}`
         );
         if (res.ok) {
           const profile = await res.json();
@@ -69,7 +69,7 @@ const CandidateDashboard = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/applications", {
+      const res = await fetch("https://internshiprecommendbe-2.onrender.com/api/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -97,7 +97,7 @@ const CandidateDashboard = () => {
       skills: formData.skills.split(",").map((s) => s.trim()),
     };
     try {
-      const response = await fetch("http://localhost:5000/api/candidates", {
+      const response = await fetch("https://internshiprecommendbe-2.onrender.com/api/candidates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -124,7 +124,7 @@ const CandidateDashboard = () => {
     }
     try {
       const response = await fetch(
-        `http://localhost:5000/api/recommendations/${lastCandidateId}`
+        `https://internshiprecommendbe-2.onrender.com/api/recommendations/${lastCandidateId}`
       );
       if (response.ok) {
         const data = await response.json();

@@ -43,12 +43,12 @@ const AdminDashboard = ({ companyId }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/internships", {
+      
+      const response = await fetch(`https://internshiprecommendbe-2.onrender.com/api/internships`, { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       if (response.ok) {
         alert("✅ Internship posted successfully!");
         setFormData({
@@ -77,7 +77,7 @@ const AdminDashboard = ({ companyId }) => {
 
   try {
     const response = await fetch(
-      `http://localhost:5000/api/applications/company/${companyId}`
+      `https://internshiprecommendbe-2.onrender.com/api/applications/company/${companyId}`
     );
     if (response.ok) {
       const data = await response.json();

@@ -10,11 +10,6 @@
   margin-right: auto;
 }
 
-body{
-  background: url("../assets/modi.jpg") no-repeat center center fixed;
-  background-size: cover;
-
-}
 
 .role-selection {
   display: flex;

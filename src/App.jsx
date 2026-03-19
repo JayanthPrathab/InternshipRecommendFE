@@ -1,15 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
+import Navbar from "./Navbar";
+import Home from "./Home";
 import CandidateDashboard from "./CandidateDashboard";
 import AdminDashboard from "./AdminDashboard";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         {/* Default route */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
 
         {/* Candidate Dashboard, expects user_id in the URL */}
         <Route path="/candidate/:userId" element={<CandidateDashboard />} />

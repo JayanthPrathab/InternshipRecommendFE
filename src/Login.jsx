@@ -1,118 +1,119 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles/Login.css";
 
-const Login = () => {
-  const [role, setRole] = useState(null); // "candidate" or "admin"
+const Login = ({ closeModal }) => {
+  const [role, setRole] = useState(null); 
+  const [view, setView] = useState("login"); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState(""); 
+  
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!role) {
-      alert("Please select Candidate or Admin login");
-      return;
-    }
-
     try {
-      const response = await fetch(
-        "https://internshiprecommendbe-2.onrender.com/api/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, role }),
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert("✅ Login Successful");
-
-        // ✅ store in localStorage for later use
+        // ✅ STORE THE TOKEN
+        localStorage.setItem("token", data.token); 
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("role", role);
-
+        
+        closeModal();
+        
+        // Navigation logic for InternIntel
         if (role === "candidate") {
           navigate(`/candidate/${data.user_id}`);
         } else {
           navigate("/admin");
         }
+      } else if (response.status === 404) {
+        alert("Account not found. Let's get you registered!");
+        setView("signup");
       } else {
-        alert(`❌ ${data.error || "Invalid credentials"}`);
+        alert(data.error || "Invalid credentials");
       }
     } catch (err) {
-      console.error("Login error:", err);
       alert("⚠️ Server error. Try again later.");
     }
   };
 
   const handleRegister = async () => {
-    if (!role) {
-      alert("Please select Candidate or Admin login");
-      return;
-    }
-
     try {
-      const response = await fetch("https://internshiprecommendbe-2.onrender.com/api/register", { 
+      const response = await fetch("http://localhost:5000/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role }),
-       });
+        body: JSON.stringify({ email, password, role, name }),
+      });
+      
       const data = await response.json();
 
       if (response.ok) {
-        alert("🎉 Registration Successful! You can now log in.");
+        // ✅ AUTO-LOGIN: Store token from registration response
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("role", role);
+
+        alert("🎉 Registration Successful!");
+        closeModal();
+        
+        role === "candidate" ? navigate(`/candidate/${data.user_id}`) : navigate("/admin");
       } else {
-        alert(`❌ ${data.error || "Registration failed"}`);
+        alert(data.error || "Registration failed");
       }
     } catch (err) {
-      console.error("Register error:", err);
-      alert("⚠️ Server error. Try again later.");
+      alert("⚠️ Server error during registration.");
     }
   };
 
   return (
-    <div className="login-container">
-      <h1>Welcome to Internship Finder</h1>
-      <h2>Login Portal</h2>
-
+    <div className="login-modal-internal">
       {!role ? (
         <div className="role-selection">
-          <button className="role-button" onClick={() => setRole("candidate")}>
-            Candidate Login
-          </button>
-          <button className="role-button" onClick={() => setRole("admin")}>
-            Admin Login
-          </button>
+          <h3>Select your Role</h3>
+          <button onClick={() => setRole("candidate")}>Candidate</button>
+          <button onClick={() => setRole("admin")}>Admin</button>
         </div>
       ) : (
-        <div>
-          <h3>{role === "candidate" ? "Candidate Login" : "Admin Login"}</h3>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="login-input"
+        <div className="form-container">
+          <h3>{view === "login" ? `Login as ${role}` : `Sign Up as ${role}`}</h3>
+          
+          {view === "signup" && (
+            <input 
+              type="text" 
+              placeholder="Full Name" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+            />
+          )}
+
+          <input 
+            type="email" 
+            placeholder="Email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
           />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="login-input"
+          <input 
+            type="password" 
+            placeholder="Password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
           />
-          <br />
-          <div className="button-container">
-            <button onClick={handleLogin} className="login-button">
-              Login
-            </button>
-            <button onClick={handleRegister} className="register-button">
-              Register
-            </button>
-          </div>
+
+          <button onClick={view === "login" ? handleLogin : handleRegister}>
+            {view === "login" ? "Login" : "Register & Join"}
+          </button>
+
+          <button className="text-link" onClick={() => setRole(null)}>
+            ← Back to Role Selection
+          </button>
         </div>
       )}
     </div>

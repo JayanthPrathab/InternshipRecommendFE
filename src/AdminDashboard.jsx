@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import apiRequest from "./API"; // ✅ Using the central API utility
 import "./styles/AdminDashboard.css";
 
-const AdminDashboard = ({ companyId }) => {
-  // ✅ Pass logged-in companyId as prop
+const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const companyId = localStorage.getItem("user_id");
+
   const [formData, setFormData] = useState({
     companyName: "",
     jobTitle: "",
@@ -11,10 +15,16 @@ const AdminDashboard = ({ companyId }) => {
     location: "",
     womenPreference: false,
     openings: 0,
+    deadline: 30,
   });
 
-  const [appliedCandidates, setAppliedCandidates] = useState([]); // ✅ Store applications
+  const [appliedCandidates, setAppliedCandidates] = useState([]); 
   const [showCandidates, setShowCandidates] = useState(false);
+
+  // Security check: Redirect if not logged in
+  if (!companyId) {
+    navigate("/");
+  }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,7 +37,6 @@ const AdminDashboard = ({ companyId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const companyId = localStorage.getItem("user_id"); // ✅ companyId from login
     if (!companyId) {
       alert("⚠️ Please login as a company first");
       return;
@@ -35,63 +44,49 @@ const AdminDashboard = ({ companyId }) => {
 
     const payload = {
       ...formData,
-      companyId, // ✅ attach companyId
+      companyId, 
       skillsRequired: formData.skillsRequired
         .split(",")
         .map((s) => s.trim())
         .filter((s) => s),
     };
 
-    try {
-      
-      const response = await fetch(`https://internshiprecommendbe-2.onrender.com/api/internships`, { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+    // ✅ Using apiRequest (POST automatically handles headers and token)
+    const result = await apiRequest("/internships", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    if (result && !result.error) {
+      alert("✅ Internship posted successfully!");
+      setFormData({
+        companyName: "",
+        jobTitle: "",
+        jobDescription: "",
+        skillsRequired: "",
+        location: "",
+        womenPreference: false,
+        openings: 0,
+        deadline: 30,
       });
-      if (response.ok) {
-        alert("✅ Internship posted successfully!");
-        setFormData({
-          companyName: "",
-          jobTitle: "",
-          jobDescription: "",
-          skillsRequired: "",
-          location: "",
-          womenPreference: false,
-        });
-      } else {
-        const errorData = await response.json();
-        console.error("Backend error:", JSON.stringify(errorData, null, 2));
-        alert("❌ Error posting internship");
-      }
-    } catch (error) {
-      console.error("Network or server error:", error);
-      alert("⚠️ Network or server error");
+    } else {
+      alert(result?.error || "❌ Error posting internship");
     }
   };
 
-  // ✅ Fetch applied candidates for this company
+  // ✅ Fetch applied candidates using apiRequest
   const fetchAppliedCandidates = async () => {
-  const companyId = localStorage.getItem("user_id"); // get correct companyId
-  if (!companyId) return alert("⚠️ Company ID not found");
+    if (!companyId) return alert("⚠️ Company ID not found");
 
-  try {
-    const response = await fetch(
-      `https://internshiprecommendbe-2.onrender.com/api/applications/company/${companyId}`
-    );
-    if (response.ok) {
-      const data = await response.json();
+    const data = await apiRequest(`/applications/company/${companyId}`);
+    
+    if (data && !data.error) {
       setAppliedCandidates(data);
       setShowCandidates(true);
     } else {
-      const errorData = await response.json();
-      console.error("Error fetching candidates:", errorData);
-      alert("❌ Error fetching candidates");
+      alert(data?.error || "❌ Error fetching candidates");
     }
-  } catch (error) {
-    console.error("Error fetching candidates:", error);
-  }
-};
+  };
 
   return (
     <div className="admin-container">
@@ -187,7 +182,7 @@ const AdminDashboard = ({ companyId }) => {
               </td>
             </tr>
             <tr>
-              <th>Application Deadline</th>
+              <th>Application Deadline (Days)</th>
               <td>
                 <input
                   type="number"
@@ -200,13 +195,12 @@ const AdminDashboard = ({ companyId }) => {
           </tbody>
         </table>
 
-        <button type="submit">Post Internship</button>
+        <button type="submit" className="post-btn">Post Internship</button>
       </form>
 
       <hr />
 
-      {/* ✅ Button to fetch applied candidates */}
-      <button onClick={fetchAppliedCandidates}>
+      <button onClick={fetchAppliedCandidates} className="view-btn">
         👥 View Applied Candidates
       </button>
 
@@ -214,7 +208,7 @@ const AdminDashboard = ({ companyId }) => {
         <div className="candidates-list">
           <h2>📋 Applied Candidates</h2>
           {appliedCandidates.length > 0 ? (
-            <table className="admin-table">
+            <table className="results-table">
               <thead>
                 <tr>
                   <th>Application #</th>
@@ -229,13 +223,13 @@ const AdminDashboard = ({ companyId }) => {
                     <td>{c.applicationNumber}</td>
                     <td>{c.userName}</td>
                     <td>{c.jobTitle}</td>
-                    <td>{c.status}</td>
+                    <td><span className={`status-tag ${c.status.toLowerCase()}`}>{c.status}</span></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p>No candidates have applied yet.</p>
+            <p className="no-data">No candidates have applied yet.</p>
           )}
         </div>
       )}
